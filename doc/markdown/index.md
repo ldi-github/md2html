@@ -27,4 +27,4 @@ Just converts documents in markdown(.md) to html.
 ### Run
 
 - [Run task on desktop](run/run_task_on_desktop.md)
-- [Run on Github actions](run/run_task_on_github_actions.md)
+- [Run task on Github actions](run/run_task_on_github_actions.md)
