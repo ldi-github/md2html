@@ -23,7 +23,7 @@ https://www.jetbrains.com/idea/
     - `JDK: (Your choice)`
     - `Gradle DSL: Kotlin`
     - `Add sample code: OFF`
-      ![](_images/new_project.png)
+      <br>![](_images/new_project.png)
 1. Click `Create`.
 1. Wait for a while until background tasks finish. It may take minutes.
 
@@ -97,7 +97,7 @@ tasks.register<JavaExec>("md2html") {
 ```
 
 Click reload on Gradle pane.
-![](_images/reload_gradle.png)
+<br>![](_images/reload_gradle.png)
 
 ## Copy files
 
