@@ -22,11 +22,11 @@ class MarkdownConverter(
     val converterConfig: ConverterConfig,
     val options: MutableDataSet = MutableDataSet()
 ) {
-    val inputDirectory: String
+    val inputDirectory: Path
         get() {
             return converterConfig.inputDirectory
         }
-    val outputDirectory: String
+    val outputDirectory: Path
         get() {
             return converterConfig.outputDirectory
         }
@@ -65,33 +65,26 @@ class MarkdownConverter(
         val parser = Parser.builder(options).build()
         val htmlRenderer = HtmlRenderer.builder(options).build()
 
-        if (Files.exists(Path.of(outputDirectory)).not()) {
-            File(outputDirectory).mkdirs()
+        if (Files.exists(outputDirectory).not()) {
+            outputDirectory.toFile().mkdirs()
         }
 
-        copyFile("main.css")
-
-        val mdFiles = File(inputDirectory).walkTopDown().filter { it.name.endsWith(".md") }
+        val mdFiles = inputDirectory.toFile().walkTopDown().filter { it.name.endsWith(".md") }
         for (mdFile in mdFiles) {
-            convertCore(mdFile, parser, htmlRenderer)
-        }
-    }
-
-    private fun copyFile(file: String) {
-
-        val fromFile = Path.of(inputDirectory).resolve(file)
-        if (Files.exists(fromFile).not()) {
-            return
+            convertFile(mdFile, parser, htmlRenderer)
         }
 
-        val toFile = Path.of(outputDirectory).resolve(file)
-        Files.copy(fromFile, toFile, StandardCopyOption.REPLACE_EXISTING)
+        val inputAssetsPath = converterConfig.inputDirectory.resolve("_assets")
+        if (Files.exists(inputAssetsPath)) {
+            inputAssetsPath.toFile()
+                .copyRecursively(converterConfig.outputDirectory.resolve("_assets").toFile(), true)
+        }
     }
 
     private fun getRelative(outputHtmlPath: Path): String {
 
         val outputFileDepth = outputHtmlPath.toString().split("/").count()
-        val outputDirectoryDepth = outputDirectory.split("/").count()
+        val outputDirectoryDepth = outputDirectory.toString().split("/").count()
         val diff = outputFileDepth - outputDirectoryDepth
         var s = ""
         for (i in 1..diff - 1) {
@@ -100,39 +93,33 @@ class MarkdownConverter(
         return s
     }
 
-    private fun convertCore(
+    private fun convertFile(
         mdFile: File,
         parser: Parser,
         htmlRenderer: HtmlRenderer
     ) {
         println(mdFile.name)
 
-        val outputFileName = mdFile.toString().removePrefix(inputDirectory).trimStart('/').trimStart('¥')
+        val outputFileName = mdFile.toString().removePrefix(inputDirectory.toString()).trimStart('/').trimStart('¥')
             .removeSuffix(".md") + ".html"
-        val outputHtmlPath = Path.of(outputDirectory).resolve(outputFileName)
+        val outputHtmlPath = outputDirectory.resolve(outputFileName)
 
         val mdText = mdFile.readText()
         val mdDocument = parser.parse(mdText)
-        val renderedHtml = htmlRenderer.render(mdDocument)
+        val contentHtml = htmlRenderer.render(mdDocument)
 
-        val mainCss = getRelative(outputHtmlPath) + "main.css"
+        val relative = getRelative(outputHtmlPath)
+        val assets = relative + "_assets"
+        val templateHtml = converterConfig.getHeadTemplate()
+        val contentDocument = Jsoup.parse(contentHtml)
 
-        val completeHtml = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="$mainCss" />
-</head>
-<body>
-<div id="readme" class="Box">
-<article class="markdown-body container-lg">
-$renderedHtml
-</article>
-</div>
-</body>
-</html>
-        """.trimIndent()
+        val h1 = contentDocument.select("h1").firstOrNull()?.text() ?: ""
+
+        val completeHtml = templateHtml
+            .replace("\${relative}", relative)
+            .replace("\${assets}", assets)
+            .replace("\${contentHtml}", contentHtml)
+            .replace("\${h1}", h1)
 
         val htmlDocument = Jsoup.parse(completeHtml)
 
@@ -145,8 +132,6 @@ $renderedHtml
         }
 
         val dir = outputHtmlPath.parent
-//        val htmlFilePath = dir.resolve("${mdFile.nameWithoutExtension}.html")
-
         if (Files.exists(dir).not()) {
             dir.toFile().mkdirs()
         }
