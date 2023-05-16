@@ -15,3 +15,7 @@ Just converts documents in markdown(.md) to html.
 ### Cons
 
 - Not highly functional. You have to implement additional feature by code if you want.
+
+## Generated sample
+
+[GitHub pages of md2html](https://ldi-github.github.io/md2html/)
