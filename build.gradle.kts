@@ -151,3 +151,12 @@ tasks.register("publishToExternalRepository") {
         it.repository == publishing.repositories["ossrh"]
     })
 }
+
+/**
+ * md2html
+ */
+tasks.register<JavaExec>("md2html") {
+    group = "md2html"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("md2html.Executor")
+}

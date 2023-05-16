@@ -113,9 +113,11 @@ class MarkdownConverter(
         val templateHtml = converterConfig.getHeadTemplate()
         val contentDocument = Jsoup.parse(contentHtml)
 
+        val gtag = converterConfig.getGtag()
         val h1 = contentDocument.select("h1").firstOrNull()?.text() ?: ""
 
         val completeHtml = templateHtml
+            .replace("\${gtag}", gtag)
             .replace("\${relative}", relative)
             .replace("\${assets}", assets)
             .replace("\${contentHtml}", contentHtml)

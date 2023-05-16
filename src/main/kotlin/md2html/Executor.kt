@@ -5,6 +5,6 @@ object Executor {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        MarkdownConverter(ConverterConfig()).convert()
+        MarkdownConverter(ConverterConfig(args = args.toList())).convert()
     }
 }
