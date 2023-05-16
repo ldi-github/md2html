@@ -1,3 +1,10 @@
+# Template html
+
+You can configure template for html.
+
+### _template.html (example)
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,3 +28,18 @@
 </div>
 </body>
 </html>
+```
+
+## Template variables
+
+| variable       | description            |
+|----------------|------------------------|
+| ${assets}      | Path of `_assets`      |
+| ${relative}    | Relative path to root  |
+| ${h1}          | Value of first h1      |
+| ${gtag}        | Place holder for gtag  |
+| ${contentHtml} | Converted html from md |
+
+### Link
+
+- [index](../index.md)
