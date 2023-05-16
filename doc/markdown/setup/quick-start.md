@@ -68,14 +68,13 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
     testImplementation(kotlin("test"))
 
     // md2html
-    implementation("io.github.ldi-github:md2html:0.1.0-SNAPSHOT")
+    implementation("io.github.ldi-github:md2html:0.1.0")
 }
 
 tasks.test {
