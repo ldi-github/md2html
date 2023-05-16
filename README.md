@@ -1,6 +1,6 @@
 # ldi-github/md2html
 
-This is simple converter.
+This is a simple converter.
 Just converts documents in markdown(.md) to html.
 
 - Convert .md files to .html files
@@ -10,6 +10,7 @@ Just converts documents in markdown(.md) to html.
 ### Pros
 
 - You don't have to change your existing markdown(.md) files.
+- Easy to set up.
 
 ### Cons
 

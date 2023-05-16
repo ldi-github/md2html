@@ -1,3 +1,14 @@
+# Run task on GitHub actions
+
+You can run `md2html` task on GitHub actions and deploy static html files on GitHub pages.
+
+1. Open you GitHub repository in browser.
+2. Go GitHub Pages Setting (Settings > Pages)
+3. Select source as GitHub Actions.
+4. Click `Configure` button in **Static HTML** section.
+5. Create `static.yaml` as follows.
+
+```yaml
 # Simple workflow for deploying static content to GitHub Pages
 name: Deploy static content to Pages
 
@@ -49,3 +60,13 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+```
+
+6. Commit changes.
+7. Click `Actions` tab. You can see a job executing.
+8. If the jobs succeeded you can see static web page on GitHub pages. Click the url on deploy task.
+   <br>![](_images/job_succeeded.png)
+
+### Link
+
+- [index](../index.md)
