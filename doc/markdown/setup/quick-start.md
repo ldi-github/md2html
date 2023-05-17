@@ -74,7 +74,7 @@ dependencies {
     testImplementation(kotlin("test"))
 
     // md2html
-    implementation("io.github.ldi-github:md2html:0.1.0")
+    implementation("io.github.ldi-github:md2html:0.1.1")
 }
 
 tasks.test {

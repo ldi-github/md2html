@@ -4,6 +4,8 @@ You can configure template for html.
 
 ### _template.html (example)
 
+<!-- disable-variable -->
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -36,9 +38,16 @@ You can configure template for html.
 |----------------|------------------------|
 | ${assets}      | Path of `_assets`      |
 | ${relative}    | Relative path to root  |
-| ${h1}          | Value of first h1      |
+| ${h1}          | Value of first `<h1>`  |
 | ${gtag}        | Place holder for gtag  |
 | ${contentHtml} | Converted html from md |
+
+## Template directives
+
+| directive                   | description               |
+|-----------------------------|---------------------------|
+| `<!-- disable-variable -->` | Disable template variable |
+| `<!-- enable-variable -->`  | Enable template variable  |
 
 ### Link
 
