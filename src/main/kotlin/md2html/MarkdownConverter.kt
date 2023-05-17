@@ -117,13 +117,34 @@ class MarkdownConverter(
         val h1 = contentDocument.select("h1").firstOrNull()?.text() ?: ""
 
         val completeHtml = templateHtml
-            .replace("\${gtag}", gtag)
-            .replace("\${relative}", relative)
-            .replace("\${assets}", assets)
             .replace("\${contentHtml}", contentHtml)
-            .replace("\${h1}", h1)
 
-        val htmlDocument = Jsoup.parse(completeHtml)
+        var replaceVariable = true
+        val sb = StringBuilder()
+        val lines = completeHtml.split(System.lineSeparator())
+        for (line in lines) {
+            val comment = getComment(line)
+            if (comment == "disable-variable") {
+                replaceVariable = false
+                continue
+            }
+            if (comment == "enable-variable") {
+                replaceVariable = true
+                continue
+            }
+
+            var newLine = line
+            if (replaceVariable) {
+                newLine = line
+                    .replace("\${relative}", relative)
+                    .replace("\${assets}", assets)
+                    .replace("\${h1}", h1)
+                    .replace("\${gtag}", gtag)
+            }
+            sb.appendLine(newLine)
+        }
+
+        val htmlDocument = Jsoup.parse(sb.toString())
 
         val aTags = htmlDocument.select("a")
         for (aTag in aTags) {
@@ -157,6 +178,19 @@ class MarkdownConverter(
 
         File(outputHtmlPath.toUri()).writeText(htmlDocument.toString())
 
+    }
+
+    private fun getComment(line: String): String {
+
+        val l = line.trim()
+        if (l.startsWith("<!-- ").not()) {
+            return ""
+        }
+        if (l.endsWith(" -->").not()) {
+            return ""
+        }
+        val label = l.removePrefix("<!--").removeSuffix("-->").trim()
+        return label
     }
 
     fun getSimplePath(basePath: String, relativePath: String): String {
