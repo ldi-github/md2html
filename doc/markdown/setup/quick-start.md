@@ -29,9 +29,9 @@ https://www.jetbrains.com/idea/
 
 ### build.gradle.kts (after created)
 
-```kotlin
+```
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.9.21"
 }
 
 group = "org.example"
@@ -42,15 +42,14 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
 
 tasks.test {
     useJUnitPlatform()
 }
-
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
 }
 ```
 
@@ -58,7 +57,7 @@ Append some lines as follows.
 
 ### build.gradle.kts (after edit)
 
-```kotlin
+```
 plugins {
     kotlin("jvm") version "1.8.20"
 }
@@ -74,7 +73,7 @@ dependencies {
     testImplementation(kotlin("test"))
 
     // md2html
-    implementation("io.github.ldi-github:md2html:0.1.1")
+    implementation("io.github.ldi-github:md2html:0.2.0")
 }
 
 tasks.test {
@@ -104,6 +103,20 @@ Click reload on Gradle pane.
 
 ![](_images/copy_and_paste_files.png)
 
+## Configure md2htmlConfig.json
+
+1. Open `md2htmlConfig.json`.
+1. Edit `siteRoot`.
+
+```json
+{
+  "inputDirectory": "doc/markdown",
+  "outputDirectory": "doc/out",
+  "generateSitemap": "true",
+  "siteRoot": "https://ldi-github.github.io/md2html/"
+}
+```
+
 ## Run md2html
 
 1. Run md2html task.
@@ -112,6 +125,8 @@ Click reload on Gradle pane.
    <br>![](_images/doc_out.png)
 1. Open `index.html`.
    <br>![](_images/index_html.png)
+1. Open `sitemap.xml`.
+   <br>![](_images/sitemap.png)
 
 ### Link
 

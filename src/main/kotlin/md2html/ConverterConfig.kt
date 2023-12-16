@@ -12,6 +12,9 @@ class ConverterConfig(
     lateinit var jso: JSONObject
     lateinit var inputDirectory: Path
     lateinit var outputDirectory: Path
+    var generateSitemap = true
+    lateinit var siteRoot: String
+
     val includeGtag: Boolean
 
     val templatePath: Path
@@ -30,9 +33,9 @@ class ConverterConfig(
         return JSONObject(data)
     }
 
-    private fun getString(key: String): String {
+    private fun getString(key: String): String? {
 
-        return if (jso.has(key)) jso.getString(key) else ""
+        return if (jso.has(key)) jso.getString(key) else null
     }
 
     /**
@@ -42,8 +45,13 @@ class ConverterConfig(
 
         jso = getJSONObjectFromFile(file = configFile)
 
-        inputDirectory = Path.of(getString("inputDirectory"))
-        outputDirectory = Path.of(getString("outputDirectory"))
+        inputDirectory = Path.of(getString("inputDirectory") ?: Const.INPUT_DIRECTORY)
+        outputDirectory = Path.of(getString("outputDirectory") ?: Const.OUTPUT_DIRECTORY)
+        generateSitemap = (getString("generateSitemap") ?: Const.GENERATE_SITEMAP) == "true"
+        siteRoot = getString("siteRoot") ?: throw IllegalArgumentException("siteRoot is required.")
+        if (siteRoot.endsWith("/").not()) {
+            siteRoot = "$siteRoot/"
+        }
     }
 
     /**
