@@ -57,6 +57,13 @@ class MarkdownConverter(
             .setFrom(ParserEmulationProfile.GITHUB_DOC)
     }
 
+    private val forbiddenCharacters = Const.FORBIDDEN_CHARACTERS_IN_FILE_NAME.toList()
+
+    private fun checkForbiddenCharacters(text: String): Boolean {
+
+        return forbiddenCharacters.any() { text.contains(it) }
+    }
+
     /**
      * convert
      */
@@ -74,6 +81,14 @@ class MarkdownConverter(
         val mdFiles = inputDirectory.toFile().walkTopDown().filter { it.name.endsWith(".md") }
         for (mdFile in mdFiles) {
             convertFile(mdFile, parser, htmlRenderer)
+        }
+
+        println()
+        for (mdFile in mdFiles) {
+            val filePath = mdFile.toString().removePrefix("C:").removePrefix("c:")
+            if (checkForbiddenCharacters(filePath)) {
+                println("[Warn]: forrbidden characters[${Const.FORBIDDEN_CHARACTERS_IN_FILE_NAME}] found in $filePath")
+            }
         }
 
         val inputAssetsPath = converterConfig.inputDirectory.resolve("_assets")

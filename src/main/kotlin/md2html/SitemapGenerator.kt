@@ -58,6 +58,15 @@ class SitemapGenerator(
         return list
     }
 
+    private fun String.escapeUrl(): String {
+
+        return this.replace("&", "&amp;")
+            .replace("'", "&apos;")
+            .replace("\"", "&quot;")
+            .replace(">", "&gt;")
+            .replace("<", "&lt;")
+    }
+
     private fun getSiteMapContent(list: List<FileItem>): String {
 
         val sb = StringBuilder()
@@ -66,7 +75,7 @@ class SitemapGenerator(
 
         for (item in list) {
             val file = item.filePath.removeSuffix(".md") + ".html"
-            val loc = "${converterConfig.siteRoot}${file}"
+            val loc = "${converterConfig.siteRoot}${file}".escapeUrl()
             sb.appendLine("  <url>")
             sb.appendLine("    <loc>$loc</loc>")
             sb.appendLine("    <lastmod>${item.lastModified}</lastmod>")
