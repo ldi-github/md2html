@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.github.ldi-github"
-version = "0.2.0"
+version = "0.2.1-SNAPSHOT"
 
 repositories {
     mavenCentral()

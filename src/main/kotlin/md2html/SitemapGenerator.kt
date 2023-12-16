@@ -53,7 +53,7 @@ class SitemapGenerator(
 
         val exitCode = process.waitFor()
         if (exitCode != 0) {
-            throw IllegalStateException("exitCode=$exitCode")
+            println("exitCode=$exitCode")
         }
         return list
     }
