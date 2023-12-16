@@ -19,6 +19,8 @@ class SitemapGenerator(
             return
         }
 
+        println("/// Generating sitemap.xml")
+
         val workDir = Path.of(Const.BUILD_TEMP_MD2HTML)
         if (Files.exists(workDir).not()) {
             workDir.toFile().mkdirs()
@@ -28,7 +30,11 @@ class SitemapGenerator(
         val mdList = lastModifiedList.filter { it.filePath.endsWith(".md") }
 
         val sitemapContent = getSiteMapContent(mdList)
-        converterConfig.outputDirectory.resolve("sitemap.xml").writeText(sitemapContent)
+        val sitemapFile = converterConfig.outputDirectory.resolve("sitemap.xml")
+        sitemapFile.writeText(sitemapContent)
+        println(sitemapFile)
+
+        println()
     }
 
     private fun getLastModifiedList(workDir: Path): List<FileItem> {

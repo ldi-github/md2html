@@ -5,6 +5,10 @@ object Executor {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        MarkdownConverter(ConverterConfig(args = args.toList())).convert()
+        val converterConfig = ConverterConfig(args = args.toList())
+
+        MarkdownConverter(converterConfig).convert()
+
+        SitemapGenerator(converterConfig).generate()
     }
 }
