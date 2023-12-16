@@ -5,7 +5,9 @@ You can change input directory or output directory.
 ```json
 {
   "inputDirectory": "doc/markdown",
-  "outputDirectory": "doc/out"
+  "outputDirectory": "doc/out",
+  "generateSitemap": "true",
+  "siteRoot": "https://ldi-github.github.io/md2html/"
 }
 ```
 

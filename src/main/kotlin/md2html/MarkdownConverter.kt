@@ -62,6 +62,8 @@ class MarkdownConverter(
      */
     fun convert() {
 
+        println("/// Converting md to html")
+
         val parser = Parser.builder(options).build()
         val htmlRenderer = HtmlRenderer.builder(options).build()
 
@@ -79,6 +81,8 @@ class MarkdownConverter(
             inputAssetsPath.toFile()
                 .copyRecursively(converterConfig.outputDirectory.resolve("_assets").toFile(), true)
         }
+
+        println()
     }
 
     private fun getRelative(outputHtmlPath: Path): String {
@@ -98,7 +102,7 @@ class MarkdownConverter(
         parser: Parser,
         htmlRenderer: HtmlRenderer
     ) {
-        println(mdFile.name)
+        println(mdFile.toString())
 
         val outputFileName = mdFile.toString().removePrefix(inputDirectory.toString()).trimStart('/').trimStart('¥')
             .removeSuffix(".md") + ".html"
