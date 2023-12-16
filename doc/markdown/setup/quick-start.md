@@ -100,6 +100,7 @@ Click reload on Gradle pane.
 ## Copy files
 
 1. Copy files in md2html project and paste to sample1 project.
+2. Commit files to git repository.
 
 ![](_images/copy_and_paste_files.png)
 
