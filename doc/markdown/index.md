@@ -3,9 +3,10 @@
 This is a simple converter.
 Just converts documents in markdown(.md) to html.
 
-- Convert .md files to .html files
-- replacing file extensions.
-- with keeping anchor relations to other documents and images
+- Converts .md files to .html files
+    - replacing file extensions
+    - keeping anchor relations to other documents and images
+- Generates sitemap.xml
 
 ## Repository
 

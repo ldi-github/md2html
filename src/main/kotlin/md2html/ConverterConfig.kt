@@ -48,7 +48,8 @@ class ConverterConfig(
         inputDirectory = Path.of(getString("inputDirectory") ?: Const.INPUT_DIRECTORY)
         outputDirectory = Path.of(getString("outputDirectory") ?: Const.OUTPUT_DIRECTORY)
         generateSitemap = (getString("generateSitemap") ?: Const.GENERATE_SITEMAP) == "true"
-        siteRoot = getString("siteRoot") ?: throw IllegalArgumentException("siteRoot is required.")
+        siteRoot = getString("siteRoot")
+            ?: throw IllegalArgumentException("siteRoot is required in md2htmlConfig.json.")
         if (siteRoot.endsWith("/").not()) {
             siteRoot = "$siteRoot/"
         }
